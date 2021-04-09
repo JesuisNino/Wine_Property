@@ -20,8 +20,18 @@ public class WineSampleCellar extends AbstractWineSampleCellar {
 
     @Override
     public WinePropertyMap parseWineFileLine(String line) throws IllegalArgumentException {
-        // TODO implement
-        return new WinePropertyMap();
+        // TODO implement  
+        WinePropertyMap map = new WinePropertyMap();
+    	String[] split = line.split(";");
+        WineProperty[] property = WineProperty.values();
+        if(split.length != property.length) {
+        	throw new IllegalArgumentException("Parse wine file line is too few or too much!");
+        }else {
+        for(int i=0;i< split.length;i++) {
+    			map.put(property[i],Double.valueOf(split[i].toString()));
+        	}
+        }
+    	return map;     	
     }
 
     @Override
