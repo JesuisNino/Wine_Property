@@ -27,7 +27,7 @@ public class WineSampleCellar extends AbstractWineSampleCellar {
         if(split.length != property.length) {
         	throw new IllegalArgumentException("Parse wine file line is too few or too much!");
         }else {
-        for(int i=0;i< split.length;i++) {
+        	for(int i=0;i< split.length;i++) {
     			map.put(property[i],Double.valueOf(split[i].toString()));
         	}
         }
@@ -44,26 +44,48 @@ public class WineSampleCellar extends AbstractWineSampleCellar {
     public double getMinimumValue(WineProperty wineProperty, List<WineSample> wineList)
             throws NoSuchElementException {
         // TODO implement
-        return -1;
+    	double value = wineList.get(0).getProperty(wineProperty);
+    	for(int i=1;i<wineList.size();i++) {
+    		if(value > wineList.get(i).getProperty(wineProperty)) {
+    			value = wineList.get(i).getProperty(wineProperty);
+    		}
+    	}
+    	return value;
     }
 
     @Override
     public double getMaximumValue(WineProperty wineProperty, List<WineSample> wineList)
             throws NoSuchElementException {
         // TODO implement
-        return -1;
+    	double value = 0;
+    	for(int i=0;i<wineList.size();i++) {
+    		if(value < wineList.get(i).getProperty(wineProperty)) {
+    			value = wineList.get(i).getProperty(wineProperty);
+    		}
+    	}
+    	return value;
     }
 
     @Override
     public double getMeanAverageValue(WineProperty wineProperty, List<WineSample> wineList)
             throws NoSuchElementException {
         // TODO implement
-        return -1;
+    	double sum = 0;
+    	for(int i=0;i<wineList.size();i++) {
+    			sum += wineList.get(i).getProperty(wineProperty);	
+    	}
+    	double avg = sum/wineList.size();
+    	return avg;
     }
 
     @Override
     public List<WineSample> getFirstFiveWines(WineType type) {
         // TODO implement
-        return new ArrayList<>();
+    	List<WineSample> list = new ArrayList<>();
+    	for(int i=0;i<5;i++) {		
+				list.add();
+			}
+    		
+    	}
     }
 }
