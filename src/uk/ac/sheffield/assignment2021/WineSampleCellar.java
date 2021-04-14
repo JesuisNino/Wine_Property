@@ -37,7 +37,10 @@ public class WineSampleCellar extends AbstractWineSampleCellar {
     @Override
     public void updateCellar() {
         // TODO delete next line and implement
-        wineSampleRacks.put(WineType.ALL, new ArrayList<>());
+        List<WineSample> racks = new ArrayList<>();
+        racks.addAll(wineSampleRacks.get(WineType.RED));
+        racks.addAll(wineSampleRacks.get(WineType.WHITE));
+    	wineSampleRacks.put(WineType.ALL, racks);
     }
 
     @Override
@@ -83,9 +86,8 @@ public class WineSampleCellar extends AbstractWineSampleCellar {
         // TODO implement
     	List<WineSample> list = new ArrayList<>();
     	for(int i=0;i<5;i++) {		
-				list.add();
-			}
-    		
+				list.add(wineSampleRacks.get(type).get(i));
     	}
+    	return list;
     }
 }
