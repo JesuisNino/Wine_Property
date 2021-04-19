@@ -30,7 +30,7 @@ public class QueryParser extends AbstractQueryParser {
     	}
     	
         WineType wineType = null;
-    	if(queryTokens.contains("or")) {
+    	if(queryTokens.contains("red") && queryTokens.contains("white")) {
     		wineType = WineType.ALL;
     		query.add(new Query(subQueryList,wineType));
     	}else if(queryTokens.contains("red") && !queryTokens.contains("white")) {
