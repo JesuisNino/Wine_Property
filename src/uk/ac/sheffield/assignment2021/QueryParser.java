@@ -50,14 +50,11 @@ public class QueryParser extends AbstractQueryParser {
         		subQueryList.add(new SubQuery(wineProperty,operator,value));            	
         	}
         	             	
-        	
-        	
-        	if(i==countSelect.get(index+1) || i==queryTokens.size()-1) {
+     
+        	if(countSelect.size()!=1 && i==countSelect.get(index+1) || i==queryTokens.size()-1) {
         		if(wineProperty == null||operator == null||value == null||type == null) {
             		throw new IllegalArgumentException("Entered the wrong sentence!");
             	}
-        		System.out.println(subQueryList);
-        		System.out.println(type);
         		queries.add(new Query(subQueryList,type));	
         		subQueryList = new ArrayList<>();
         		type = null;
