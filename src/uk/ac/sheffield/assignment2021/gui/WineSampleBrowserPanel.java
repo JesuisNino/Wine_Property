@@ -87,27 +87,22 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 			filteredWineSampleList = query.executeQuery(cellar);
 		}
 
-		filteredWineSamplesTextArea.append("WineType");
-		filteredWineSamplesTextArea.append("        ");
-		filteredWineSamplesTextArea.append("ID");
-		filteredWineSamplesTextArea.append("        ");
+		filteredWineSamplesTextArea.append("WineType\t");
+		filteredWineSamplesTextArea.append("ID\t");
 
 		for (int i = 0; i < WineProperty.values().length; i++) {
-			filteredWineSamplesTextArea.append(WineProperty.values()[i].toString());
-			filteredWineSamplesTextArea.append("        ");
+			filteredWineSamplesTextArea.append(WineProperty.values()[i].toString()+"\t");
 		}
 
 		int line = 0;
 
 		while (line < filteredWineSampleList.size()) {
 			filteredWineSamplesTextArea.append("\n");
-			filteredWineSamplesTextArea.append(filteredWineSampleList.get(line).getWineType().toString());
-			filteredWineSamplesTextArea.append("        ");
-			filteredWineSamplesTextArea.append(String.valueOf(filteredWineSampleList.get(line).getId()));
-			filteredWineSamplesTextArea.append("        ");
+			System.out.println(filteredWineSamplesTextArea.getCaretPosition()+"\t");
+			filteredWineSamplesTextArea.append(filteredWineSampleList.get(line).getWineType().toString()+"\t");
+			filteredWineSamplesTextArea.append(String.valueOf(filteredWineSampleList.get(line).getId())+"\t");
 			for (int i = 0; i < WineProperty.values().length; i++) {
-				filteredWineSamplesTextArea.append((String.valueOf(filteredWineSampleList.get(line).getProperty(WineProperty.values()[i]))));
-				filteredWineSamplesTextArea.append("        ");
+				filteredWineSamplesTextArea.append((String.valueOf(filteredWineSampleList.get(line).getProperty(WineProperty.values()[i])))+"\t");
 			}
 			line++;
 		}
