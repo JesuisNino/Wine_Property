@@ -21,12 +21,14 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 		// TODO implement
 		buttonAddFilter.addActionListener(e -> {
 			addFilter();
+			updateStatistics();
 			executeQuery();
 		});
 		buttonClearFilters.addActionListener(e -> {
 			clearFilters();
 		});
 		comboWineTypes.addActionListener(e -> {
+			updateStatistics();
 			executeQuery();
 		});
 	}
@@ -42,7 +44,6 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 		String subQueriesText = subQueryList.toString().replace("[", "").replace("]", "").replace(",", ";");
 
 		subQueriesTextArea.setText(subQueriesText);
-		statisticsTextArea.setText(operator);
 	}
 
 	@Override
@@ -57,6 +58,47 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 	@Override
 	public void updateStatistics() {
 		// TODO implement
+		statisticsTextArea.setText(null);
+		statisticsTextArea.append("\t");
+		for (int i=0;i<WineProperty.values().length;i++) {
+			statisticsTextArea.append(WineProperty.values()[i].toString()+"\t");
+		}
+		
+		statisticsTextArea.append("\n");
+		statisticsTextArea.append("Minimum:\t");
+		for (int i=0;i<5;i++) {
+			statisticsTextArea.append(cellar.getMinimumValue(WineProperty.values()[i],filteredWineSampleList)+"\t");
+		}
+		statisticsTextArea.append(cellar.getMinimumValue(WineProperty.values()[5],filteredWineSampleList)+"\t\t");
+		statisticsTextArea.append(cellar.getMinimumValue(WineProperty.values()[6],filteredWineSampleList)+"\t\t");
+		for (int i=7; i<WineProperty.values().length;i++) {
+			statisticsTextArea.append(cellar.getMinimumValue(WineProperty.values()[i],filteredWineSampleList)+"\t");
+		}
+		
+		statisticsTextArea.append("\n");
+		statisticsTextArea.append("Maximum:\t");
+		for (int i=0;i<5;i++) {
+			statisticsTextArea.append(cellar.getMaximumValue(WineProperty.values()[i],filteredWineSampleList)+"\t");
+		}
+		statisticsTextArea.append(cellar.getMaximumValue(WineProperty.values()[5],filteredWineSampleList)+"\t\t");
+		statisticsTextArea.append(cellar.getMaximumValue(WineProperty.values()[6],filteredWineSampleList)+"\t\t");
+		for (int i=7; i<WineProperty.values().length;i++) {
+			statisticsTextArea.append(cellar.getMaximumValue(WineProperty.values()[i],filteredWineSampleList)+"\t");
+		}
+		
+		statisticsTextArea.append("\n");
+		statisticsTextArea.append("Mean:\t");
+		for (int i=0;i<5;i++) {
+			statisticsTextArea.append(String.format("%.2f",cellar.getMeanAverageValue(WineProperty.values()[i],filteredWineSampleList))+"\t");
+		}
+		statisticsTextArea.append(String.format("%.2f",cellar.getMeanAverageValue(WineProperty.values()[5],filteredWineSampleList))+"\t\t");
+		statisticsTextArea.append(String.format("%.2f",cellar.getMeanAverageValue(WineProperty.values()[6],filteredWineSampleList))+"\t\t");
+		for (int i=7; i<WineProperty.values().length;i++) {
+			statisticsTextArea.append(String.format("%.2f",cellar.getMeanAverageValue(WineProperty.values()[i],filteredWineSampleList))+"\t");
+		}
+		
+		statisticsTextArea.append("\n");
+		statisticsTextArea.append("Showing "+filteredWineSampleList.size()+" out of "+cellar.getNumberWineSamples(WineType.ALL)+" samples.");
 	}
 
 	@Override
@@ -98,10 +140,14 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 
 		while (line < filteredWineSampleList.size()) {
 			filteredWineSamplesTextArea.append("\n");
-			System.out.println(filteredWineSamplesTextArea.getCaretPosition()+"\t");
 			filteredWineSamplesTextArea.append(filteredWineSampleList.get(line).getWineType().toString()+"\t");
 			filteredWineSamplesTextArea.append(String.valueOf(filteredWineSampleList.get(line).getId())+"\t");
-			for (int i = 0; i < WineProperty.values().length; i++) {
+			for (int i = 0; i < 5; i++) {
+				filteredWineSamplesTextArea.append((String.valueOf(filteredWineSampleList.get(line).getProperty(WineProperty.values()[i])))+"\t");
+			}
+			filteredWineSamplesTextArea.append((String.valueOf(filteredWineSampleList.get(line).getProperty(WineProperty.values()[5])))+"\t\t");
+			filteredWineSamplesTextArea.append((String.valueOf(filteredWineSampleList.get(line).getProperty(WineProperty.values()[6])))+"\t\t");
+			for (int i = 7; i < WineProperty.values().length; i++) {
 				filteredWineSamplesTextArea.append((String.valueOf(filteredWineSampleList.get(line).getProperty(WineProperty.values()[i])))+"\t");
 			}
 			line++;
