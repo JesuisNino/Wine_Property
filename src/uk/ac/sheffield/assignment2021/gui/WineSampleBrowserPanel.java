@@ -23,6 +23,7 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 			addFilter();
 			updateStatistics();
 			executeQuery();
+			updateWineDetailsBox();
 		});
 		buttonClearFilters.addActionListener(e -> {
 			clearFilters();
@@ -30,6 +31,7 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 		comboWineTypes.addActionListener(e -> {
 			updateStatistics();
 			executeQuery();
+			updateWineDetailsBox();
 		});
 	}
 
@@ -104,31 +106,7 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 	@Override
 	public void updateWineDetailsBox() {
 		// TODO implement
-	}
-
-	@Override
-	public void executeQuery() {
-		// TODO implement
 		filteredWineSamplesTextArea.setText(null);
-		List<Query> queries = new ArrayList<>();
-		switch ((String) comboWineTypes.getSelectedItem()) {
-		case "RED":
-			queries.add(new Query(subQueryList, WineType.RED));
-			break;
-
-		case "WHITE":
-			queries.add(new Query(subQueryList, WineType.WHITE));
-			break;
-
-		case "ALL":
-			queries.add(new Query(subQueryList, WineType.ALL));
-			break;
-		}
-
-		for (Query query : queries) {
-			filteredWineSampleList = query.executeQuery(cellar);
-		}
-
 		filteredWineSamplesTextArea.append("WineType\t");
 		filteredWineSamplesTextArea.append("ID\t");
 
@@ -152,6 +130,29 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 			}
 			line++;
 		}
+	}
+
+	@Override
+	public void executeQuery() {
+		// TODO implement
+		List<Query> queries = new ArrayList<>();
+		switch ((String) comboWineTypes.getSelectedItem()) {
+		case "RED":
+			queries.add(new Query(subQueryList, WineType.RED));
+			break;
+
+		case "WHITE":
+			queries.add(new Query(subQueryList, WineType.WHITE));
+			break;
+
+		case "ALL":
+			queries.add(new Query(subQueryList, WineType.ALL));
+			break;
+		}
+
+		for (Query query : queries) {
+			filteredWineSampleList = query.executeQuery(cellar);
+		}	
 
 	}
 }
