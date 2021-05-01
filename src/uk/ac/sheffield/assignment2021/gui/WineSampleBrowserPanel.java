@@ -7,7 +7,6 @@ import uk.ac.sheffield.assignment2021.codeprovided.AbstractWineSampleCellar;
 import uk.ac.sheffield.assignment2021.codeprovided.Query;
 import uk.ac.sheffield.assignment2021.codeprovided.SubQuery;
 import uk.ac.sheffield.assignment2021.codeprovided.WineProperty;
-import uk.ac.sheffield.assignment2021.codeprovided.WineSample;
 import uk.ac.sheffield.assignment2021.codeprovided.WineType;
 import uk.ac.sheffield.assignment2021.codeprovided.gui.AbstractWineSampleBrowserPanel;
 
