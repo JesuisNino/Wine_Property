@@ -32,6 +32,9 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 			executeQuery();
 			updateWineDetailsBox();
 		});
+		comboHistogramProperties.addActionListener(e -> {
+			
+		});
 	}
 
 	@Override

@@ -25,6 +25,9 @@ public class Histogram extends AbstractHistogram {
     @Override
     public void updateHistogramContents(WineProperty property, List<WineSample> filteredWineSamples) {
         // TODO implement
+    	for(int i=0;i<filteredWineSamples.size();i++) {
+    		if(filteredWineSamples.get(i).getProperty(property))
+    	}
     }
 
     @Override
