@@ -20,21 +20,26 @@ public class HistogramPanel extends AbstractHistogramPanel
         Dimension d = getSize();
         Graphics2D g2 = (Graphics2D) g;
 
-        Line2D y = new Line2D.Double(
-            0,
-            0,
-            0,
-            d.height
-        );
+        int yMax=getHistogram().largestBinCount();
+        for(int i=0;i<4;i++) {
+            Line2D y = new Line2D.Double(
+                    0,
+                    i*(d.height-2)/4,
+                    d.width,
+                    i*(d.height-2)/4
+                );
+            g2.draw(y);
+        }
+
         
         Line2D x = new Line2D.Double(
         		0,
-        		d.height,
+        		d.height-2,
                 d.width,
-                d.height
+                d.height-2
             );
         g2.draw(x);
-        g2.draw(y);
+        
     }
 
     /* NOTE: your HistogramPanel must override JPanel's `protected void paintComponent(Graphics g)`,
