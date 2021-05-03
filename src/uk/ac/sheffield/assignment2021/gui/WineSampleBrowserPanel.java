@@ -20,20 +20,22 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 		// TODO implement
 		buttonAddFilter.addActionListener(e -> {
 			addFilter();
-			updateStatistics();
 			executeQuery();
+			updateStatistics();
 			updateWineDetailsBox();
+			updateHistogram();
 		});
 		buttonClearFilters.addActionListener(e -> {
 			clearFilters();
 		});
 		comboWineTypes.addActionListener(e -> {
-			updateStatistics();
 			executeQuery();
+			updateStatistics();			
 			updateWineDetailsBox();
+			updateHistogram();
 		});
 		comboHistogramProperties.addActionListener(e -> {
-			
+			updateHistogram();	
 		});
 	}
 

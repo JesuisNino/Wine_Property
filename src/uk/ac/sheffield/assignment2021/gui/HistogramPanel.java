@@ -1,7 +1,7 @@
 package uk.ac.sheffield.assignment2021.gui;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
+import java.awt.geom.*;
 import java.util.List;
 import java.util.Map;
 
@@ -22,32 +22,39 @@ public class HistogramPanel extends AbstractHistogramPanel
         super.paintComponent(g);
         Dimension d = getSize();
         Graphics2D g2 = (Graphics2D) g;
-
+        
         Map<HistogramBin, Integer> countsPerBin=getHistogram().getWineCountsPerBin();
         List<HistogramBin> binList=getHistogram().getBinsInBoundaryOrder();
-        int maxCount=getHistogram().largestBinCount();
-        for(int i=0;i<4;i++) {
-        	Line2D y = new Line2D.Double(
-                    d.getWidth()/100,
-                    i*(d.height-2)/4,
-                    d.width,
-                    i*(d.height-2)/4
-                );
-            g2.draw(y);
-        }
+        System.out.println(binList.size());
+        if(binList.size()>1) {
+        	 int maxCount=getHistogram().largestBinCount();
+        	for(int i=0;i<5;i++) {
+            	Line2D y = new Line2D.Double(
+                        80,
+                        i*90+5,
+                        d.width,
+                        i*90+5
+                    );
+                g2.draw(y);
+                g2.drawString(String.valueOf(i*maxCount/4), 50, (4-i)*90+10);
+            }
 
-        for(int j=0;j<binList.size();j++) {
-        	g2.drawRect(j*d.width/binList.size(), d.height-d.height*countsPerBin.get(binList.get(j))/maxCount, d.width/binList.size(), d.height*countsPerBin.get(binList.get(j))/maxCount);
+            String [] yLabel = {"F","r","e","q","u","e","n","c","y"};
+            for(int i=0;i<yLabel.length;i++) {
+                Font f = new Font("SansSerif", 0, 20);
+                g2.setFont(f);
+            	g2.drawString(yLabel[i], 20, 80+30*i);
+            }
+            
+            int binWidth = (d.width-80)/binList.size();
+            for(int j=0;j<binList.size();j++) {
+            	g2.setPaint(Color.GRAY); 
+            	g2.fillRect(80+j*binWidth, d.height-d.height*countsPerBin.get(binList.get(j))/maxCount, binWidth, d.height*countsPerBin.get(binList.get(j))/maxCount);
+            	g2.setPaint(Color.BLACK); 
+            	g2.drawString("", 80+j*binWidth/2, j);
+            }
         }
-        	
-        Line2D x = new Line2D.Double(
-        		0,
-        		d.height-2,
-                d.width,
-                d.height-2
-            );
-        g2.draw(x);
-        
+       	
     }
 
     /* NOTE: your HistogramPanel must override JPanel's `protected void paintComponent(Graphics g)`,

@@ -47,11 +47,16 @@ public class WineSampleCellar extends AbstractWineSampleCellar {
     public double getMinimumValue(WineProperty wineProperty, List<WineSample> wineList)
             throws NoSuchElementException {
         // TODO implement
-    	double value = wineList.get(0).getProperty(wineProperty);
-    	for(int i=1;i<wineList.size();i++) {
-    		if(value > wineList.get(i).getProperty(wineProperty)) {
-    			value = wineList.get(i).getProperty(wineProperty);
-    		}
+    	double value=0.0;
+    	if(wineList.size()>0) {
+    		value = wineList.get(0).getProperty(wineProperty);
+        	for(int i=1;i<wineList.size();i++) {
+        		if(value > wineList.get(i).getProperty(wineProperty)) {
+        			value = wineList.get(i).getProperty(wineProperty);
+        		}
+        	}
+    	}else {
+    		System.out.println("Nothing's here!");
     	}
     	return value;
     }

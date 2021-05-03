@@ -32,9 +32,9 @@ public class Histogram extends AbstractHistogram {
     	int binCount=1;
     	boolean finalBin=false;
     	
-    	while(binCount<NUMBER_BINS) {
+    	while(binCount<=NUMBER_BINS) {
     		
-    		if(binCount==NUMBER_BINS-1) {
+    		if(binCount==NUMBER_BINS) {
     			finalBin=true;
     		}
     		
@@ -49,7 +49,7 @@ public class Histogram extends AbstractHistogram {
     		binCount++;
     	}
     		
-
+        
     }
 
 	@Override
