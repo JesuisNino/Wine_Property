@@ -8,6 +8,7 @@ import uk.ac.sheffield.assignment2021.codeprovided.gui.HistogramBin;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.TreeMap;
 
 public class Histogram extends AbstractHistogram {
 	/**
@@ -31,25 +32,26 @@ public class Histogram extends AbstractHistogram {
     	double interval=(max-min)/NUMBER_BINS;	
     	int binCount=1;
     	boolean finalBin=false;
+    	wineCountsPerBin = new TreeMap<>();
     	
-    	while(binCount<=NUMBER_BINS) {
-    		
+    	while(binCount<=NUMBER_BINS) {		
     		if(binCount==NUMBER_BINS) {
     			finalBin=true;
     		}
     		
     		HistogramBin bin=new HistogramBin(min,min+(binCount*interval),finalBin);
-    		int count=0;   		
+    		int count=1;   		
     		for(int i=0;i<filteredWineSamples.size();i++) {
     			if(bin.valueInBin(filteredWineSamples.get(i).getProperty(property))){
-    			wineCountsPerBin.put(bin, count);
-    			count++;
-    			}	
+    			    wineCountsPerBin.put(bin, count);
+    			    count++;
+    			}else {
+    				wineCountsPerBin.put(bin, 0);	
+    			}
     		}
     		binCount++;
     	}
-    		
-        
+
     }
 
 	@Override
