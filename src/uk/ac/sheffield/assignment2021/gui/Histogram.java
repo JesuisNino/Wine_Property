@@ -6,6 +6,7 @@ import uk.ac.sheffield.assignment2021.codeprovided.WineSample;
 import uk.ac.sheffield.assignment2021.codeprovided.gui.AbstractHistogram;
 import uk.ac.sheffield.assignment2021.codeprovided.gui.HistogramBin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.TreeMap;
@@ -25,38 +26,46 @@ public class Histogram extends AbstractHistogram {
 	}
 
 	@Override
-    public void updateHistogramContents(WineProperty property, List<WineSample> filteredWineSamples) {
-        // TODO implement
-    	double min=cellar.getMinimumValue(property,filteredWineSamples);
-    	double max=cellar.getMaximumValue(property,filteredWineSamples);
-    	double interval=(max-min)/NUMBER_BINS;	
-    	int binCount=1;
-    	boolean finalBin=false;
-    	wineCountsPerBin = new TreeMap<>();
-    	
-    	while(binCount<=NUMBER_BINS) {		
-    		if(binCount==NUMBER_BINS) {
-    			finalBin=true;
-    		}
-    		
-    		HistogramBin bin=new HistogramBin(min,min+(binCount*interval),finalBin);
-    		int count=1;   		
-    		for(int i=0;i<filteredWineSamples.size();i++) {
-    			if(bin.valueInBin(filteredWineSamples.get(i).getProperty(property))){
-    			    wineCountsPerBin.put(bin, count);
-    			    count++;
-    			}else {
-    				wineCountsPerBin.put(bin, 0);	
-    			}
-    		}
-    		binCount++;
-    	}
-
-    }
+	public void updateHistogramContents(WineProperty property, List<WineSample> filteredWineSamples) {
+		// Initialise the variables
+		double min = cellar.getMinimumValue(property, filteredWineSamples);
+		double max = cellar.getMaximumValue(property, filteredWineSamples);
+		double interval = (max - min) / NUMBER_BINS;
+		int binCount = 1;
+		int binIndex = 0;
+		boolean finalBin = false;
+		wineCountsPerBin = new TreeMap<>();
+		List<HistogramBin> binList = new ArrayList<>();
+		
+		// Only parse data when there are wines that meet the requirements
+		if (!filteredWineSamples.isEmpty()) {
+			// Set all bins have a proper size
+			while (binCount <= NUMBER_BINS) {
+				if (binCount == NUMBER_BINS)
+					finalBin = true;
+				binList.add(new HistogramBin(min + (binCount - 1) * interval, min + (binCount * interval), finalBin));
+				binCount++;
+			}
+            
+			//Count wines that meet the requirements for all bins
+			while (binIndex < NUMBER_BINS) {
+				int count = 0;
+				for (int i = 0; i < filteredWineSamples.size(); i++) {
+					if (binList.get(binIndex).valueInBin(filteredWineSamples.get(i).getProperty(property))) {
+						count++;
+					} else {
+						continue;
+					}
+				}
+				wineCountsPerBin.put(binList.get(binIndex), count);
+				binIndex++;
+			}
+		}
+	}
 
 	@Override
 	public double getAveragePropertyValue() throws NoSuchElementException {
-		// TODO implement
+		// Get mean average value from wine samples
 		return cellar.getMeanAverageValue(property, filteredWineSamples);
 	}
 }

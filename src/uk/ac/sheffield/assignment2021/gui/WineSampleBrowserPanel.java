@@ -17,7 +17,7 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 
 	@Override
 	public void addListeners() {
-		// TODO implement
+		// Add relevant actionListeners to the GUI components
 		buttonAddFilter.addActionListener(e -> {
 			addFilter();
 			executeQuery();
@@ -26,6 +26,7 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 			updateHistogram();
 			repaint();
 		});
+		
 		buttonClearFilters.addActionListener(e -> {
 			clearFilters();
 			updateStatistics();
@@ -33,6 +34,7 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 			updateHistogram();
 			repaint();
 		});
+		
 		comboWineTypes.addActionListener(e -> {
 			executeQuery();
 			updateStatistics();
@@ -40,6 +42,7 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 			updateHistogram();
 			repaint();
 		});
+		
 		comboHistogramProperties.addActionListener(e -> {
 			updateHistogram();
 			repaint();
@@ -48,20 +51,25 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 
 	@Override
 	public void addFilter() {
-		// TODO implement
+		// Get the subquery which entered by users
 		WineProperty wineProperty = WineProperty.fromName((String) comboQueryProperties.getSelectedItem());
 		String operator = (String) comboOperators.getSelectedItem();
 		Double values = Double.valueOf(value.getText());
-
+        
+		// Show subqueries in the subQueriesText area
 		subQueryList.add(new SubQuery(wineProperty, operator, values));
 		String subQueriesText = subQueryList.toString().replace("[", "").replace("]", "").replace(",", ";");
-
+        
+		// Initialise the comboBoxes
+		comboQueryProperties.setSelectedIndex(0);
+		comboOperators.setSelectedIndex(0);
+		value.setText(null);
 		subQueriesTextArea.setText(subQueriesText);
 	}
 
 	@Override
 	public void clearFilters() {
-		// TODO implement
+		// Clear subQueries and initialise the comboBoxes
 		subQueryList.clear();
 		subQueriesTextArea.setText(null);
 		comboQueryProperties.setSelectedIndex(0);
@@ -71,24 +79,29 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 
 	@Override
 	public void updateStatistics() {
-		// TODO implement
+		// Initialise the text area
 		statisticsTextArea.setText(null);
+		
+		// Set text area content
 		if (subQueryList.isEmpty()) {
 			return;
 		} else if (filteredWineSampleList.isEmpty()) {
 			statisticsTextArea.append("No wines under these filters!");
 		} else {
+			// Set title
 			statisticsTextArea.append("\t");
 			for (int i = 0; i < WineProperty.values().length; i++) {
 				statisticsTextArea.append(WineProperty.values()[i].toString() + "\t");
 			}
-
+            
+			// Set the minimum values line
 			statisticsTextArea.append("\n");
 			statisticsTextArea.append("Minimum:\t");
 			for (int i = 0; i < 5; i++) {
 				statisticsTextArea
 						.append(cellar.getMinimumValue(WineProperty.values()[i], filteredWineSampleList) + "\t");
 			}
+			// Solve the problem that two titles are too long
 			statisticsTextArea
 					.append(cellar.getMinimumValue(WineProperty.values()[5], filteredWineSampleList) + "\t\t");
 			statisticsTextArea
@@ -97,13 +110,15 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 				statisticsTextArea
 						.append(cellar.getMinimumValue(WineProperty.values()[i], filteredWineSampleList) + "\t");
 			}
-
+            
+			// Set the maximum values line
 			statisticsTextArea.append("\n");
 			statisticsTextArea.append("Maximum:\t");
 			for (int i = 0; i < 5; i++) {
 				statisticsTextArea
 						.append(cellar.getMaximumValue(WineProperty.values()[i], filteredWineSampleList) + "\t");
 			}
+			// Solve the problem that two titles are too long
 			statisticsTextArea
 					.append(cellar.getMaximumValue(WineProperty.values()[5], filteredWineSampleList) + "\t\t");
 			statisticsTextArea
@@ -112,13 +127,15 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 				statisticsTextArea
 						.append(cellar.getMaximumValue(WineProperty.values()[i], filteredWineSampleList) + "\t");
 			}
-
+            
+			// Set the mean average values line
 			statisticsTextArea.append("\n");
 			statisticsTextArea.append("Mean:\t");
 			for (int i = 0; i < 5; i++) {
 				statisticsTextArea.append(String.format("%.2f",
 						cellar.getMeanAverageValue(WineProperty.values()[i], filteredWineSampleList)) + "\t");
 			}
+			// Solve the problem that two titles are too long
 			statisticsTextArea.append(
 					String.format("%.2f", cellar.getMeanAverageValue(WineProperty.values()[5], filteredWineSampleList))
 							+ "\t\t");
@@ -129,7 +146,8 @@ public class WineSampleBrowserPanel extends AbstractWineSampleBrowserPanel {
 				statisticsTextArea.append(String.format("%.2f",
 						cellar.getMeanAverageValue(WineProperty.values()[i], filteredWineSampleList)) + "\t");
 			}
-
+            
+			// Set the number information sentence
 			statisticsTextArea.append("\n");
 			statisticsTextArea.append("Showing " + filteredWineSampleList.size() + " out of "
 					+ cellar.getNumberWineSamples(WineType.ALL) + " samples.");
